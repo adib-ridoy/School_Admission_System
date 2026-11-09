@@ -71,3 +71,14 @@ npm.cmd run dev --prefix frontend
 The frontend runs at `http://localhost:5173` and uses
 `VITE_API_BASE_URL` for the backend URL. If it is not set, it defaults to
 `http://localhost:8080`.
+
+## Tests
+
+Run the backend test project:
+
+```powershell
+dotnet test backend\Tests\SchoolAdmission.Tests\SchoolAdmission.Tests.csproj
+```
+
+The test suite covers class creation, the hold/confirmation workflow,
+duplicate active applications, and concurrent seat-hold requests.
