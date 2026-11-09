@@ -41,3 +41,20 @@ Create a new migration after changing the entity model:
 ```powershell
 dotnet ef migrations add MigrationName --project backend --output-dir Data/Migrations
 ```
+
+## Backend API
+
+The backend exposes:
+
+```text
+POST   /classes
+GET    /classes
+GET    /classes/{classId}
+POST   /classes/{classId}/holds
+GET    /holds/{holdId}
+POST   /holds/{holdId}/confirm
+DELETE /holds/{holdId}
+GET    /me/holds
+```
+
+Application endpoints require the `X-Student-Id` header.
