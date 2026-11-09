@@ -21,9 +21,28 @@ public sealed class HoldsController(SchoolAdmissionDbContext db, IConfiguration 
             return BadRequest(new { error = "X-Student-Id header is required." });
         }
 
-        var admissionClass = await db.Classes
-            .Include(item => item.Holds)
-            .SingleOrDefaultAsync(item => item.Id == classId, cancellationToken);
+        await using var transaction = db.Database.IsRelational()
+            ? await db.Database.BeginTransactionAsync(cancellationToken)
+            : null;
+
+        AdmissionClass? admissionClass;
+        if (db.Database.IsRelational())
+        {
+            admissionClass = await db.Classes
+                .FromSqlInterpolated($"SELECT * FROM classes WHERE \"Id\" = {classId} FOR UPDATE")
+                .SingleOrDefaultAsync(cancellationToken);
+            if (admissionClass is not null)
+            {
+                await db.Entry(admissionClass).Collection(item => item.Holds).LoadAsync(cancellationToken);
+            }
+        }
+        else
+        {
+            admissionClass = await db.Classes
+                .Include(item => item.Holds)
+                .SingleOrDefaultAsync(item => item.Id == classId, cancellationToken);
+        }
+
         if (admissionClass is null)
         {
             return NotFound(new { error = "Class was not found." });
@@ -63,6 +82,11 @@ public sealed class HoldsController(SchoolAdmissionDbContext db, IConfiguration 
 
         db.Holds.Add(hold);
         await db.SaveChangesAsync(cancellationToken);
+        if (transaction is not null)
+        {
+            await transaction.CommitAsync(cancellationToken);
+        }
+
         return StatusCode(StatusCodes.Status201Created, ToResponse(hold));
     }
 
