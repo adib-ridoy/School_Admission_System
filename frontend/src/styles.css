@@ -1,0 +1,65 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #17251f;
+  background: #f3f6f1;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.shell { min-height: 100vh; }
+.hero { background: #173d31; color: #f5f8ee; padding: 72px max(24px, calc((100% - 1120px) / 2)); }
+.eyebrow { color: #a4d986; font-size: .75rem; font-weight: 800; letter-spacing: .14em; margin: 0 0 10px; text-transform: uppercase; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { font-size: clamp(2.5rem, 7vw, 5.6rem); line-height: .96; margin-bottom: 20px; max-width: 760px; letter-spacing: -.06em; }
+h2 { font-size: 2rem; margin-bottom: 0; letter-spacing: -.04em; }
+h3 { font-size: 1.2rem; margin: 6px 0; }
+.intro { color: #c9d8c8; font-size: 1.1rem; line-height: 1.6; max-width: 570px; }
+.student-field { display: grid; gap: 7px; margin-top: 30px; max-width: 360px; }
+.student-field span { color: #b6d7a2; font-size: .8rem; font-weight: 700; }
+input { border: 1px solid #d6dfd4; border-radius: 9px; padding: 12px 14px; background: #fff; color: #17251f; }
+.student-field input { border-color: #547b68; background: #214b3d; color: white; }
+.student-field input::placeholder { color: #a7c0ae; }
+.content { max-width: 1120px; margin: 0 auto; padding: 40px 24px 80px; }
+.panel { background: white; border: 1px solid #e1e8df; border-radius: 18px; box-shadow: 0 8px 25px #173d310b; }
+.create-form { align-items: end; display: grid; gap: 14px; grid-template-columns: 1.5fr 1fr auto; margin-bottom: 64px; padding: 22px; }
+.create-form h2 { font-size: 1.3rem; }
+.form-error, .alert { color: #a33326; font-size: .9rem; }
+.form-error { grid-column: 1 / -1; }
+.section-heading { align-items: end; display: flex; justify-content: space-between; margin-bottom: 22px; }
+.applications-heading { margin-top: 72px; }
+.class-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+.class-card { padding: 24px; }
+.card-title { align-items: start; display: flex; justify-content: space-between; }
+.class-id { color: #779080; font-size: .75rem; font-weight: 700; }
+.available { color: #27824a; font-size: 2.5rem; line-height: 1; }
+.available-label { color: #6e7c73; font-size: .8rem; margin: 2px 0 22px; }
+.stats { border-bottom: 1px solid #e5ebe3; border-top: 1px solid #e5ebe3; display: flex; justify-content: space-between; margin-bottom: 22px; padding: 14px 0; }
+.stats span { color: #7b887e; font-size: .75rem; text-align: center; }
+.stats b { color: #203a2b; display: block; font-size: 1.1rem; }
+.primary-button, .secondary-button, .danger-button { border: 0; border-radius: 8px; font-weight: 700; padding: 11px 16px; }
+.primary-button { background: #287c49; color: white; }
+.primary-button:hover { background: #1d6539; }
+.primary-button:disabled { background: #bbc8bc; cursor: not-allowed; }
+.secondary-button { background: #e5eee1; color: #28603d; }
+.danger-button { background: #f8e5e1; color: #a23d32; }
+.full-width { width: 100%; }
+.empty-state { background: #e8eee6; border-radius: 12px; color: #617267; padding: 20px; }
+.applications { display: grid; gap: 12px; }
+.application { align-items: center; display: flex; justify-content: space-between; padding: 20px 24px; }
+.application h3 { margin-bottom: 8px; }
+.status { display: inline-block; font-size: .75rem; font-weight: 800; letter-spacing: .08em; margin: 0; }
+.status.held { color: #b37516; }.status.confirmed { color: #287c49; }.status.expired, .status.cancelled { color: #a23d32; }
+.application-meta { align-items: center; display: flex; flex-wrap: wrap; gap: 10px; justify-content: end; }
+.countdown { color: #b37516; font-size: .9rem; font-weight: 700; }
+.expired-text { color: #a23d32; font-size: .9rem; }
+.alert { border-radius: 10px; margin-bottom: 16px; padding: 12px 16px; }
+.alert.error { background: #fae9e5; }.alert.success { background: #e2f1e2; color: #287c49; }
+@media (max-width: 720px) {
+  .hero { padding: 48px 24px; }
+  .create-form { grid-template-columns: 1fr; }
+  .application { align-items: start; flex-direction: column; gap: 18px; }
+  .application-meta { justify-content: start; }
+}

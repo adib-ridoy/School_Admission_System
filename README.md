@@ -58,3 +58,16 @@ GET    /me/holds
 ```
 
 Application endpoints require the `X-Student-Id` header.
+
+## Frontend
+
+Install dependencies and start the React development server:
+
+```powershell
+npm.cmd install --prefix frontend
+npm.cmd run dev --prefix frontend
+```
+
+The frontend runs at `http://localhost:5173` and uses
+`VITE_API_BASE_URL` for the backend URL. If it is not set, it defaults to
+`http://localhost:8080`.

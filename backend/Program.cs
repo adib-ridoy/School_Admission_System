@@ -6,6 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 var connectionString = builder.Configuration["DATABASE_CONNECTION_STRING"]
     ?? builder.Configuration.GetConnectionString("SchoolAdmission");
 if (string.IsNullOrWhiteSpace(connectionString))
@@ -29,6 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+app.UseCors("Frontend");
 
 app.MapControllers();
 
