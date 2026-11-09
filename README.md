@@ -82,3 +82,23 @@ dotnet test backend\Tests\SchoolAdmission.Tests\SchoolAdmission.Tests.csproj
 
 The test suite covers class creation, the hold/confirmation workflow,
 duplicate active applications, and concurrent seat-hold requests.
+
+## Run with Docker Compose
+
+Start PostgreSQL, the backend, and the frontend:
+
+```powershell
+docker compose up --build
+```
+
+Open the frontend at `http://localhost:5173`. The backend is available at
+`http://localhost:8080`.
+
+Stop the services while keeping database data:
+
+```powershell
+docker compose down
+```
+
+The PostgreSQL data is stored in the `postgres-data` Docker volume. The
+backend applies pending EF Core migrations when it starts.

@@ -40,4 +40,10 @@ app.UseCors("Frontend");
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<SchoolAdmissionDbContext>();
+    await db.Database.MigrateAsync();
+}
+
 app.Run();
