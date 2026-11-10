@@ -41,8 +41,8 @@ specific implementation.
 ## Testing
 
 - Backend tests use EF Core's in-memory provider for fast API behavior tests.
-- The concurrency test validates the application-level capacity invariant in
-  the test environment. A PostgreSQL-backed concurrency test is still
-  recommended for production-grade locking validation. The production hold
-  endpoint uses a PostgreSQL transaction and row-level class lock to prevent
-  overselling seats.
+- The backend test project uses EF Core's in-memory provider for fast API
+  behavior tests. A real PostgreSQL concurrency check is also run against two
+  Compose backend instances (`localhost:8080` and `localhost:8081`).
+- The production hold endpoint uses a PostgreSQL transaction and row-level
+  class lock to prevent overselling seats across backend processes.

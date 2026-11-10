@@ -7,6 +7,7 @@ cancel their application.
 ## Technology
 
 - Backend: ASP.NET Core Web API on .NET 10
+- Backend instances: two Compose processes on ports `8080` and `8081`
 - Database: PostgreSQL
 - ORM: Entity Framework Core with Npgsql
 - Frontend: React, TypeScript, and Vite
@@ -62,6 +63,7 @@ Open:
 
 - Frontend: `http://localhost:5173`
 - Backend: `http://localhost:8080`
+- Secondary backend: `http://localhost:8081`
 
 The backend applies pending EF Core migrations at startup. PostgreSQL data is
 stored in the `postgres-data` Docker volume.
@@ -193,6 +195,17 @@ Build the frontend:
 ```powershell
 npm.cmd run build --prefix frontend
 ```
+
+Run the frontend automated tests:
+
+```powershell
+npm.cmd test --prefix frontend
+```
+
+Both backend containers use the same PostgreSQL database. To validate the
+cross-process capacity guarantee after starting Compose, send concurrent hold
+requests to both `http://localhost:8080` and `http://localhost:8081` and
+confirm that `heldSeats + confirmedSeats` never exceeds `totalSeats`.
 
 ## Migrations
 
