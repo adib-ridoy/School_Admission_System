@@ -41,8 +41,29 @@ specific implementation.
 ## Testing
 
 - Backend tests use EF Core's in-memory provider for fast API behavior tests.
-- The backend test project uses EF Core's in-memory provider for fast API
-  behavior tests. A real PostgreSQL concurrency check is also run against two
-  Compose backend instances (`localhost:8080` and `localhost:8081`).
-- The production hold endpoint uses a PostgreSQL transaction and row-level
-  class lock to prevent overselling seats across backend processes.
+- A real PostgreSQL concurrency check is also run against two Compose backend
+  instances (`localhost:8080` and `localhost:8081`). Both instances use the
+  same PostgreSQL database, so the test represents separate backend processes
+  competing for the same class capacity.
+- The production hold endpoint prevents overselling with the following
+  sequence:
+  1. It starts a database transaction.
+  2. For a relational database, it loads the requested class with PostgreSQL's
+     `FOR UPDATE` row-level lock. A second request for the same class must wait
+     until the first transaction finishes.
+  3. While holding that lock, it expires old holds, checks for an existing
+     active application from the student, and counts active held and confirmed
+     seats.
+  4. It creates a new hold only when
+     `heldSeats + confirmedSeats < totalSeats`.
+  5. It saves the hold and commits the transaction. If no seat is available,
+     it returns HTTP 409 and does not create a hold.
+- The seat-capacity invariant is therefore
+  `heldSeats + confirmedSeats <= totalSeats`. The row lock is important because
+  an application-level check without a database lock could allow two backend
+  processes to observe the same remaining seat before either one writes its
+  hold.
+- The real validation sent 10 simultaneous hold requests across both backend
+  ports for a class with one seat. Exactly one request succeeded, the other
+  requests received HTTP 409, and the final class state was one held seat and
+  zero confirmed seats. This confirms the invariant across backend processes.
