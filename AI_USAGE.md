@@ -3,6 +3,10 @@
 This file records AI assistance used during the project and the review applied
 to generated work.
 
+# AI tools
+
+GitHub Copilot was used for this project.
+
 ## Areas that used AI assistance
 
 - Repository and folder scaffolding
